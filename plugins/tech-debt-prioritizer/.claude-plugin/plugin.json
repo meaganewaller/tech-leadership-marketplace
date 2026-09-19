@@ -1,6 +1,6 @@
 {
   "name": "tech-debt-prioritizer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ranks technical debt by business impact rather than by how unpleasant the code is -- scoring blast radius, velocity drag, customer impact, cost of delay, and effort into a tiered Now/Next/Later list, then keeping a team-visible register and reporting on what actually gets paid down.",
   "author": {
     "name": "Meagan Waller",
