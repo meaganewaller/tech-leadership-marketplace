@@ -1,0 +1,10 @@
+{
+  "name": "_template-plugin",
+  "version": "0.1.0",
+  "description": "TEMPLATE -- copy this directory to start a new tech-leadership plugin. Not meant to be installed as-is.",
+  "author": {
+    "name": "Meagan Waller",
+    "email": "meagan@meaganwaller.com"
+  },
+  "keywords": ["template"]
+}

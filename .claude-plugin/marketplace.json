@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+    "name": "tech-leadership",
+    "description": "Plugins for software developers moving into or working as lead engineers -- code review, debugging, and team-leadership workflows. Content is authored once per plugin under plugins/*/skills/*/SKILL.md and adapted for Claude, GitHub Copilot, Gemini CLI, and OpenAI Codex CLI -- see adapters/.",
+    "owner": {
+      "name": "Meagan Waller",
+      "email": "meagan@meaganwaller.com"
+    },
+    "plugins": [
+      {
+        "name": "_template-plugin",
+        "description": "TEMPLATE -- not a real plugin. Scaffolding used to validate the marketplace structure and all four tool adapters end to end. Copy this directory when starting a new plugin, then remove it from this list.",
+        "version": "0.1.0",
+        "source": "./plugins/_template-plugin",
+        "category": "template",
+        "tags": ["template", "do-not-install"]
+      }
+    ]
+  }
+  
