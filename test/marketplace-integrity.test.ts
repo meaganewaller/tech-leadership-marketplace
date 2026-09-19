@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { Glob } from "bun";
 
 /**
  * A plugin's version and description are written twice: once in
@@ -39,6 +40,7 @@ const releaseConfig = JSON.parse(
 const releaseManifest: Record<string, string> = JSON.parse(
   await readFile(".release-please-manifest.json", "utf8"),
 );
+const biome = JSON.parse(await readFile("biome.json", "utf8"));
 
 const published: PluginEntry[] = marketplace.plugins;
 const hasTag = (entry: PluginEntry, tag: string) =>
@@ -207,6 +209,55 @@ describe("the release manifest tracks the config", () => {
     async (name) => {
       const manifest = await pluginManifest(name);
       expect(releaseManifest[`plugins/${name}`]).toBe(manifest.version);
+    },
+  );
+});
+
+/**
+ * release-please rewrites these manifests with its own JSON serializer, which
+ * expands every array onto one element per line. Biome's formatter wants the
+ * short ones collapsed. Nothing reconciles the two: `json.formatter.expand`
+ * has no setting that satisfies both, because `always` would also expand the
+ * short objects release-please leaves alone.
+ *
+ * Without an exemption, every release PR fails lint on a file the release bot
+ * wrote -- which is exactly what happened to this repo's first release PR, and
+ * to two releases in the sibling marketplace before that.
+ *
+ * So the files release-please owns are exempt from the formatter, not from the
+ * linter. Their content is still guarded by the version and description tests
+ * above; only their layout is unchecked, and layout is not worth breaking every
+ * release over. This test exists so the override is not later removed as
+ * clutter -- its absence would not surface until the next release.
+ */
+describe("biome does not format what release-please rewrites", () => {
+  const exempt: string[] = (biome.overrides ?? [])
+    .filter(
+      (o: { formatter?: { enabled?: boolean } }) =>
+        o.formatter?.enabled === false,
+    )
+    .flatMap((o: { includes?: string[] }) => o.includes ?? []);
+
+  /** Every file release-please rewrites, derived from its own config. */
+  const rewritten = packages.flatMap(([dir, pkg]) =>
+    (pkg["extra-files"] ?? [])
+      .map((f) => f.path)
+      .filter((p): p is string => typeof p === "string")
+      // A leading slash is repo-root-relative; anything else is relative to
+      // the package directory.
+      .map((p) => (p.startsWith("/") ? p.slice(1) : join(dir, p))),
+  );
+
+  test("there are overrides exempting files from the formatter", () => {
+    expect(exempt.length).toBeGreaterThan(0);
+  });
+
+  test.each([...new Set(rewritten)].sort())(
+    "%s is exempt from the formatter",
+    (path) => {
+      expect(exempt.some((pattern) => new Glob(pattern).match(path))).toBe(
+        true,
+      );
     },
   );
 });
