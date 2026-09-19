@@ -10,6 +10,10 @@
 #   adapters/codex/install.sh --personal [plugin-name ...]
 #   adapters/codex/install.sh --repo <path-to-target-repo> [plugin-name ...]
 #
+# With no plugin names given, installs every plugin except ones tagged
+# "do-not-install" in marketplace.json (i.e. the template). Naming a plugin
+# explicitly installs it regardless of its tags.
+#
 # Example:
 #   adapters/codex/install.sh --personal
 #   adapters/codex/install.sh --repo ~/code/my-repo debug-session-tracker
@@ -17,6 +21,15 @@
 set -euo pipefail
 
 MARKETPLACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+MARKETPLACE_JSON="$MARKETPLACE_ROOT/.claude-plugin/marketplace.json"
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=../lib/marketplace.sh
+source "$MARKETPLACE_ROOT/adapters/lib/marketplace.sh"
+
+if ! command -v jq > /dev/null 2>&1; then
+  echo "Error: jq is required to read marketplace.json. Install it and retry." >&2
+  exit 1
+fi
 
 MODE="${1:-}"
 DEST=""
@@ -50,7 +63,12 @@ installed=0
 for plugin_dir in "$MARKETPLACE_ROOT"/plugins/*/; do
   plugin_name="$(basename "$plugin_dir")"
 
-  if [[ "$plugin_name" == "_template-plugin" && ${#REQUESTED_PLUGINS[@]} -eq 0 ]]; then
+  # Skip anything the marketplace tags "do-not-install" -- the template today,
+  # possibly more later -- unless the caller named it explicitly. Reading the
+  # tag rather than hardcoding a name means a new non-installable entry needs
+  # no change here.
+  if [[ ${#REQUESTED_PLUGINS[@]} -eq 0 ]] &&
+    marketplace_has_tag "$MARKETPLACE_JSON" "$plugin_name" "do-not-install"; then
     continue
   fi
 

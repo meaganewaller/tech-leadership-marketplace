@@ -4,7 +4,7 @@ Copy this directory to start a new tech-leadership plugin.
 
 ## Layout
 
-```
+```text
 _template-plugin/
 ├── .claude-plugin/plugin.json   -- Claude plugin manifest (name, version, description, author)
 ├── README.md                    -- this file; replace with the plugin's own README

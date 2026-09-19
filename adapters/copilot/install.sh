@@ -11,7 +11,8 @@
 #   adapters/copilot/install.sh <path-to-target-repo> [plugin-name ...]
 #
 # With no plugin names given, installs every plugin except ones tagged
-# "do-not-install" in marketplace.json (i.e. the template).
+# "do-not-install" in marketplace.json (i.e. the template). Naming a plugin
+# explicitly installs it regardless of its tags.
 #
 # Example:
 #   adapters/copilot/install.sh ~/code/my-repo
@@ -20,9 +21,19 @@
 set -euo pipefail
 
 MARKETPLACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+MARKETPLACE_JSON="$MARKETPLACE_ROOT/.claude-plugin/marketplace.json"
+# shellcheck source-path=SCRIPTDIR
+# shellcheck source=../lib/marketplace.sh
+source "$MARKETPLACE_ROOT/adapters/lib/marketplace.sh"
+
 TARGET_REPO="${1:-}"
 shift || true
 REQUESTED_PLUGINS=("$@")
+
+if ! command -v jq > /dev/null 2>&1; then
+  echo "Error: jq is required to read marketplace.json. Install it and retry." >&2
+  exit 1
+fi
 
 if [[ -z "$TARGET_REPO" ]]; then
   echo "Usage: $0 <path-to-target-repo> [plugin-name ...]" >&2
@@ -41,8 +52,12 @@ installed=0
 for plugin_dir in "$MARKETPLACE_ROOT"/plugins/*/; do
   plugin_name="$(basename "$plugin_dir")"
 
-  # Skip the template unless explicitly requested by name.
-  if [[ "$plugin_name" == "_template-plugin" && ${#REQUESTED_PLUGINS[@]} -eq 0 ]]; then
+  # Skip anything the marketplace tags "do-not-install" -- the template today,
+  # possibly more later -- unless the caller named it explicitly. Reading the
+  # tag rather than hardcoding a name means a new non-installable entry needs
+  # no change here.
+  if [[ ${#REQUESTED_PLUGINS[@]} -eq 0 ]] &&
+    marketplace_has_tag "$MARKETPLACE_JSON" "$plugin_name" "do-not-install"; then
     continue
   fi
 
