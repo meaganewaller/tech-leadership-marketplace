@@ -33,7 +33,7 @@ is Claude's plugin format.
 
 ## Layout
 
-```
+```text
 tech-leadership-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json      -- catalog Claude reads to list/install plugins
