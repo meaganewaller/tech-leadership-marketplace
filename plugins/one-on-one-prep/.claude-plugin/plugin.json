@@ -1,0 +1,10 @@
+{
+  "name": "one-on-one-prep",
+  "version": "0.1.0",
+  "description": "Prepares for 1:1s with direct reports by pulling recent PR/ticket activity and prior 1:1 history into talking points that go beyond status updates, then logs what was discussed and tracks follow-ups and themes over time.",
+  "author": {
+    "name": "Meagan Waller",
+    "email": "meagan@meaganwaller.com"
+  },
+  "keywords": ["1:1", "one-on-one", "engineering management", "tech lead", "people management"]
+}
