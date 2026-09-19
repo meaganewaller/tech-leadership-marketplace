@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "_template-plugin",
-      "description": "TEMPLATE -- not a real plugin. Scaffolding used to validate the marketplace structure and all four tool adapters end to end. Copy this directory when starting a new plugin, then remove it from this list.",
+      "description": "TEMPLATE -- not a real plugin. Scaffolding used to validate the marketplace structure and all four tool adapters end to end. Copy this directory when starting a new plugin; don't install it as-is.",
       "version": "0.1.0",
       "source": "./plugins/_template-plugin",
       "category": "template",

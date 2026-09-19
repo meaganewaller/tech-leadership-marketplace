@@ -1,7 +1,7 @@
 {
   "name": "_template-plugin",
   "version": "0.1.0",
-  "description": "TEMPLATE -- copy this directory to start a new tech-leadership plugin. Not meant to be installed as-is.",
+  "description": "TEMPLATE -- not a real plugin. Scaffolding used to validate the marketplace structure and all four tool adapters end to end. Copy this directory when starting a new plugin; don't install it as-is.",
   "author": {
     "name": "Meagan Waller",
     "email": "meagan@meaganwaller.com"
