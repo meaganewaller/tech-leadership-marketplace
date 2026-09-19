@@ -11,6 +11,7 @@ nothing to keep in sync.
 |---|---|---|---|
 | `_template-plugin` | scaffolding, not installable content | `_template-skill` | Validates the marketplace structure and all four adapters. Copy it to start a real plugin; don't install it. |
 | `one-on-one-prep` | stable | `one-on-one-prep`, `one-on-one-log`, `one-on-one-history` | Prepares for 1:1s with talking points beyond status updates, logs what was discussed, and surfaces recurring themes and stale follow-ups over time. Per-person notes are stored outside the plugin folder -- see its README before installing. |
+| `tech-debt-prioritizer` | stable | `tech-debt-prioritize`, `tech-debt-log`, `tech-debt-trends` | Ranks debt by business impact rather than by how ugly the code is -- scoring blast radius, velocity drag, customer impact, cost of delay, and effort into a Now/Next/Later list. Keeps a team-visible register in the target repo and reports on what actually gets paid down. |
 
 ## Scope
 
@@ -25,8 +26,6 @@ separate general-purpose marketplace, not here.
 From the original brainstorm on plugins for developers moving into a lead
 role -- not yet scoped into skills:
 
-- **Tech debt prioritizer** -- ranks debt by business impact, not just "this
-  code is ugly."
 - **Delegation assistant** -- breaks a big task into chunks suited to
   different skill levels on a team.
 - **Incident/postmortem writer** -- structures blameless postmortems fast,

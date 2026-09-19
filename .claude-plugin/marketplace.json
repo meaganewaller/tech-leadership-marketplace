@@ -22,6 +22,20 @@
       "source": "./plugins/one-on-one-prep",
       "category": "people-management",
       "keywords": ["1:1", "one-on-one", "engineering management", "tech lead"]
+    },
+    {
+      "name": "tech-debt-prioritizer",
+      "description": "Ranks technical debt by business impact rather than by how unpleasant the code is -- scoring blast radius, velocity drag, customer impact, cost of delay, and effort into a tiered Now/Next/Later list, then keeping a team-visible register and reporting on what actually gets paid down.",
+      "version": "0.1.0",
+      "source": "./plugins/tech-debt-prioritizer",
+      "category": "prioritization",
+      "keywords": [
+        "tech debt",
+        "technical debt",
+        "prioritization",
+        "engineering management",
+        "tech lead"
+      ]
     }
   ]
 }

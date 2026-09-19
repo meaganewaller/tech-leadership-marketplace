@@ -18,6 +18,23 @@
           "jsonpath": "$.plugins[?(@.name=='one-on-one-prep')].version"
         }
       ]
+    },
+    "plugins/tech-debt-prioritizer": {
+      "component": "tech-debt-prioritizer",
+      "release-type": "simple",
+      "initial-version": "0.1.0",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "/.claude-plugin/marketplace.json",
+          "jsonpath": "$.plugins[?(@.name=='tech-debt-prioritizer')].version"
+        }
+      ]
     }
   }
 }
