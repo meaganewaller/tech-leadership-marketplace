@@ -50,6 +50,11 @@ tech-leadership-marketplace/
 │   ├── copilot/install.sh    -- copies skills into a repo's .github/skills/
 │   ├── gemini/install.sh     -- builds a Gemini extension per plugin
 │   └── codex/install.sh      -- copies skills into ~/.codex/skills/ or .agents/skills/
+├── test/                      -- bun tests guarding the invariants above
+├── .github/workflows/
+│   ├── ci.yml                -- lint + tests on every pull request
+│   └── release.yml           -- release-please, on push to main
+├── release-please-config.json -- one release package per installable plugin
 ├── CATALOG.md                 -- human-readable index of plugins and skills
 └── AGENTS.md                  -- instructions for an agent working on this repo itself
 ```
@@ -66,11 +71,23 @@ with exact commands:
 
 ## What's in the catalog right now
 
-Nothing installable yet beyond `_template-plugin`, a scaffold used to prove
-the marketplace structure and all four adapters work end to end. See
-`CATALOG.md` for the backlog of tech-lead-specific ideas not yet scoped
-into plugins (1:1 prep, tech debt prioritizer, delegation assistant,
-incident/postmortem writer, stakeholder translator, design doc reviewer).
+Two installable plugins, plus `_template-plugin` -- a scaffold kept on
+purpose, since it's what proves the structure and all four adapters still
+work after a change to this repo's shape.
+
+- **`one-on-one-prep`** -- prepares for 1:1s with talking points that go
+  past "what did you work on this week," logs what was actually discussed,
+  and surfaces recurring themes and stale follow-ups over time. Per-person
+  notes live outside the plugin folder, deliberately -- read its README
+  before installing.
+- **`tech-debt-prioritizer`** -- ranks technical debt by business impact
+  rather than by how unpleasant the code is, scoring blast radius, velocity
+  drag, customer impact, cost of delay, and effort into a Now/Next/Later
+  list. Keeps a team-visible register in the repo the debt belongs to.
+
+`CATALOG.md` has the full index, plus the backlog of ideas not yet scoped
+into plugins (delegation assistant, incident/postmortem writer, stakeholder
+translator, design doc reviewer).
 
 ## Adding a new plugin
 
@@ -78,8 +95,22 @@ See `plugins/_template-plugin/README.md` for the step-by-step, and
 `AGENTS.md` for repo-wide conventions (skill-writing style, validation
 commands) an agent working on this repo should follow.
 
+## Development and releases
+
+`mise` pins the toolchain (`bun`, `shellcheck`, `shfmt`, `jq`) and `bun`
+carries the linters. `bun test` runs the suite; `bun run lint` runs biome,
+markdownlint, shellcheck, and shfmt. CI runs both on every pull request and
+also lints commit messages, since the pull request title becomes the squash
+subject that release-please reads.
+
+Versions are managed by release-please, one release package per installable
+plugin. **Don't hand-edit a `version` field** in `plugin.json` or
+`marketplace.json` -- a release PR will overwrite it, or worse, leave it
+silently disagreeing with the git tag. `AGENTS.md` has the full release
+notes, including how to register a new plugin.
+
 ## Status
 
-Early scaffold -- structure, catalog, and all four adapters are built and
-tested against the template; real plugin content has not been ported in
-yet.
+Working. Two plugins published, all four adapters exercised by the test
+suite against real plugin content, and releases automated. The marketplace
+structure is settled; what grows from here is the catalog.
