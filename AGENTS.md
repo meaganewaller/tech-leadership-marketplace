@@ -76,13 +76,19 @@ adapters/gemini/install.sh <plugin-name>
 Releases are driven by release-please in manifest mode, one package per
 installable plugin, from `.github/workflows/release.yml` on push to `main`.
 
-Commit messages must be conventional commits -- that's the only input
-release-please reads. A `feat:`/`fix:` commit touching
-`plugins/<name>/**` opens (or updates) a release PR for that plugin.
-Merging that PR tags `<name>-vX.Y.Z`, writes
+This repository allows squash merges only, with
+`squash_merge_commit_title` set to `PR_TITLE`. The pull request title --
+not the individual commit messages -- is therefore the subject that lands
+on `main`, and it is the only string release-please reads. A `feat:`/`fix:`
+title on a pull request touching `plugins/<name>/**` opens (or updates) a
+release PR for that plugin. Merging that PR tags `<name>-vX.Y.Z`, writes
 `plugins/<name>/CHANGELOG.md`, and bumps the version in both
 `plugins/<name>/.claude-plugin/plugin.json` and the plugin's entry in the
 root `.claude-plugin/marketplace.json`.
+
+Individual commits must still be conventional -- CI lints every one of
+them, and they become the squash commit's body -- but the title is what
+decides the release.
 
 Notes an agent working here should know:
 
@@ -99,6 +105,11 @@ Notes an agent working here should know:
   extra-file, each plugin's release PR would silently stamp its own version
   over the other plugin's row. Keeping versions out of `CATALOG.md`
   sidesteps this entirely -- don't "helpfully" add them back.
+- **Keep a pull request scoped to one plugin.** Squashing collapses the
+  branch into one subject with one type, and release-please applies that
+  type to every path the diff touched. A `feat(plugin-a):` pull request
+  that also edits `plugin-b` minor-bumps both and writes plugin-a's
+  message into plugin-b's changelog. Split the work instead.
 - **While a plugin is below 1.0.0**, a `feat!:` breaking change goes
   straight to `1.0.0` (release-please's default). Set
   `bump-minor-pre-major: true` on that package to stay in `0.x` instead.
