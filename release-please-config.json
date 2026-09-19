@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/refs/heads/main/schemas/config.json",
+  "include-component-in-tag": true,
+  "packages": {
+    "plugins/one-on-one-prep": {
+      "component": "one-on-one-prep",
+      "release-type": "simple",
+      "initial-version": "0.1.0",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "/.claude-plugin/marketplace.json",
+          "jsonpath": "$.plugins[?(@.name=='one-on-one-prep')].version"
+        }
+      ]
+    }
+  }
+}

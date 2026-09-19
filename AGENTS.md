@@ -24,8 +24,10 @@ automatically when a session is rooted here.
   non-Claude tools, an `install.sh` that copies or repackages
   `plugins/*/skills/*/` into that tool's expected location. Claude needs no
   script since `plugins/` already is its native format.
-- `CATALOG.md` -- human-readable index of every plugin and skill, kept in
-  sync with `.claude-plugin/marketplace.json` by hand.
+- `CATALOG.md` -- human-readable index of every plugin and skill. Rows are
+  added by hand; versions deliberately do not appear there (see "Releases").
+- `release-please-config.json` / `.release-please-manifest.json` -- one
+  release package per installable plugin. See "Releases".
 
 ## Conventions when adding or editing a plugin
 
@@ -41,6 +43,10 @@ automatically when a session is rooted here.
 - After adding or changing a plugin: update `.claude-plugin/marketplace.json`
   and `CATALOG.md`, then run the relevant `adapters/*/install.sh` against a
   scratch target to confirm it still adapts cleanly to all four tools.
+- Never hand-edit a `version` field in `plugin.json` or
+  `marketplace.json` -- release-please owns both. A hand-edit will be
+  overwritten by the next release PR, or worse, silently disagree with the
+  git tag.
 - The `_template-plugin` directory is scaffolding, not real content --
   copy it, don't edit it in place, and don't remove it (it's what proves
   the adapters still work after a change to this repo's structure).
@@ -64,3 +70,42 @@ adapters/copilot/install.sh /tmp/scratch-repo
 adapters/codex/install.sh --personal
 adapters/gemini/install.sh <plugin-name>
 ```
+
+## Releases
+
+Releases are driven by release-please in manifest mode, one package per
+installable plugin, from `.github/workflows/release.yml` on push to `main`.
+
+Commit messages must be conventional commits -- that's the only input
+release-please reads. A `feat:`/`fix:` commit touching
+`plugins/<name>/**` opens (or updates) a release PR for that plugin.
+Merging that PR tags `<name>-vX.Y.Z`, writes
+`plugins/<name>/CHANGELOG.md`, and bumps the version in both
+`plugins/<name>/.claude-plugin/plugin.json` and the plugin's entry in the
+root `.claude-plugin/marketplace.json`.
+
+Notes an agent working here should know:
+
+- **Only installable plugins are release packages.** `_template-plugin` is
+  deliberately excluded -- it's scaffolding nobody installs, so it gets no
+  tags and no changelog.
+- **Root-level changes cut no release.** Commits touching only `README.md`,
+  `AGENTS.md`, `CATALOG.md`, or `adapters/` map to no package. That's
+  correct; those aren't versioned, distributed content.
+- **Versions never appear in `CATALOG.md`.** release-please's generic
+  file updater matches `x-release-please-version` with no way to scope an
+  annotation to a component, and it writes one version to *every* annotated
+  line in a file. The moment a second plugin listed `CATALOG.md` as an
+  extra-file, each plugin's release PR would silently stamp its own version
+  over the other plugin's row. Keeping versions out of `CATALOG.md`
+  sidesteps this entirely -- don't "helpfully" add them back.
+- **While a plugin is below 1.0.0**, a `feat!:` breaking change goes
+  straight to `1.0.0` (release-please's default). Set
+  `bump-minor-pre-major: true` on that package to stay in `0.x` instead.
+
+To add a new plugin to releases, add a package to
+`release-please-config.json` -- copying the `one-on-one-prep` block and
+replacing the component name in both the `component` field and the
+`marketplace.json` jsonpath filter -- and add a matching
+`"plugins/<name>": "<current version>"` entry to
+`.release-please-manifest.json`.

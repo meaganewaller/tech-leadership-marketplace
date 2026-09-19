@@ -1,12 +1,16 @@
 # Catalog
 
-Human-readable index of this marketplace's plugins. Keep in sync with
-`.claude-plugin/marketplace.json` by hand.
+Human-readable index of this marketplace's plugins. Rows are added by hand
+when a plugin is added or removed; the `Status` column is deliberately
+semantic rather than a version number, because versions live in
+`.claude-plugin/marketplace.json` and each plugin's `plugin.json`, both of
+which release-please maintains. Don't restate a version here -- there is
+nothing to keep in sync.
 
 | Plugin | Status | Skills | Summary |
 |---|---|---|---|
 | `_template-plugin` | scaffolding, not installable content | `_template-skill` | Validates the marketplace structure and all four adapters. Copy it to start a real plugin; don't install it. |
-| `one-on-one-prep` | v0.1.0 | `one-on-one-prep`, `one-on-one-log`, `one-on-one-history` | Prepares for 1:1s with talking points beyond status updates, logs what was discussed, and surfaces recurring themes and stale follow-ups over time. Per-person notes are stored outside the plugin folder -- see its README before installing. |
+| `one-on-one-prep` | stable | `one-on-one-prep`, `one-on-one-log`, `one-on-one-history` | Prepares for 1:1s with talking points beyond status updates, logs what was discussed, and surfaces recurring themes and stale follow-ups over time. Per-person notes are stored outside the plugin folder -- see its README before installing. |
 
 ## Scope
 
@@ -38,4 +42,7 @@ role -- not yet scoped into skills:
    (see that directory's own README).
 2. Add a row to this table.
 3. Add an entry to `.claude-plugin/marketplace.json`.
-4. Confirm all four `adapters/*` still work against the new plugin.
+4. Register the plugin for releases -- add a package to
+   `release-please-config.json` and a matching entry to
+   `.release-please-manifest.json`. See "Releases" in `AGENTS.md`.
+5. Confirm all four `adapters/*` still work against the new plugin.
