@@ -13,6 +13,7 @@ nothing to keep in sync.
 | `one-on-one-prep` | stable | `one-on-one-prep`, `one-on-one-log`, `one-on-one-history` | Prepares for 1:1s with talking points beyond status updates, logs what was discussed, and surfaces recurring themes and stale follow-ups over time. Per-person notes are stored outside the plugin folder -- see its README before installing. |
 | `tech-debt-prioritizer` | stable | `tech-debt-prioritize`, `tech-debt-log`, `tech-debt-trends` | Ranks debt by business impact rather than by how ugly the code is -- scoring blast radius, velocity drag, customer impact, cost of delay, and effort into a Now/Next/Later list. Keeps a team-visible register in the target repo and reports on what actually gets paid down. |
 | `delegation-assistant` | stable | `delegation-plan`, `delegation-roster`, `delegation-log` | Breaks a project into chunks and matches each to a person by stated skill level, growth fit, and current load -- rather than by seniority or availability. Flags chunks nobody is ready for and tracks stretch distribution over time. Roster and log are stored outside the plugin folder -- see its README before installing. |
+| `incident-postmortem-writer` | stable | `incident-timeline`, `postmortem-writer`, `incident-history` | Captures an incident timeline live, then writes a blameless postmortem whose root causes are system and process gaps rather than individual mistakes -- there is no root cause category for human error. Tracks recurring causes and never-closed action items across incidents. |
 
 ## Scope
 
@@ -27,8 +28,6 @@ separate general-purpose marketplace, not here.
 From the original brainstorm on plugins for developers moving into a lead
 role -- not yet scoped into skills:
 
-- **Incident/postmortem writer** -- structures blameless postmortems fast,
-  right after an incident.
 - **Stakeholder translator** -- rewrites technical updates for
   non-technical execs.
 - **Design doc reviewer** -- checks a proposal for gaps before it goes to
