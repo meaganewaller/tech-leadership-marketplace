@@ -15,6 +15,7 @@ nothing to keep in sync.
 | `delegation-assistant` | stable | `delegation-plan`, `delegation-roster`, `delegation-log` | Breaks a project into chunks and matches each to a person by stated skill level, growth fit, and current load -- rather than by seniority or availability. Flags chunks nobody is ready for and tracks stretch distribution over time. Roster and log are stored outside the plugin folder -- see its README before installing. |
 | `incident-postmortem-writer` | stable | `incident-timeline`, `postmortem-writer`, `incident-history` | Captures an incident timeline live, then writes a blameless postmortem whose root causes are system and process gaps rather than individual mistakes -- there is no root cause category for human error. Tracks recurring causes and never-closed action items across incidents. |
 | `stakeholder-translator` | stable | `stakeholder-translate`, `stakeholder-profile`, `stakeholder-history` | Rewrites a technical update for a specific non-technical audience -- reframing it around business impact, risk, timeline, and cost, while severity, uncertainty, numbers, and decision-changing caveats survive the rewrite untouched. Keeps a profile per stakeholder and a log of what they have already been told, so a new update never silently contradicts the last one. Profiles and logs are stored outside the plugin folder -- see its README before installing. |
+| `design-doc-reviewer` | stable | `design-doc-review`, `design-doc-checklist`, `design-doc-history` | Checks a design doc for structural and completeness gaps before it goes to the team -- problem stated before solution, alternatives actually weighed, failure modes and blast radius, rollout and rollback, named ownership. Produces a findings table with a draft question per gap rather than a line edit or a verdict on the design. Checklist and history are committed in the repo the docs belong to; the history schema has no author field, on purpose. |
 
 ## Scope
 
@@ -26,11 +27,9 @@ separate general-purpose marketplace, not here.
 
 ## Backlog ideas (brainstormed, not yet designed)
 
-From the original brainstorm on plugins for developers moving into a lead
-role -- not yet scoped into skills:
-
-- **Design doc reviewer** -- checks a proposal for gaps before it goes to
-  the team.
+Empty. Every plugin from the original brainstorm on developers moving into
+a lead role has been built and shipped. New ideas go here as they come up,
+in the same one-line form, before they get scoped into skills.
 
 ## Adding a real entry
 
