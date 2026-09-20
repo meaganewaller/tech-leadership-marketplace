@@ -1,6 +1,6 @@
 {
   "name": "incident-postmortem-writer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Structures a blameless postmortem fast while details are still fresh -- capturing an incident timeline live, turning it into a full postmortem whose root causes are framed as system and process gaps rather than individual mistakes, and tracking recurring causes and never-closed action items across incidents.",
   "author": {
     "name": "Meagan Waller",
