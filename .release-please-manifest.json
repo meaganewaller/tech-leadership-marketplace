@@ -2,5 +2,5 @@
   "plugins/one-on-one-prep": "0.1.0",
   "plugins/tech-debt-prioritizer": "0.1.0",
   "plugins/delegation-assistant": "0.2.0",
-  "plugins/incident-postmortem-writer": "0.1.0"
+  "plugins/incident-postmortem-writer": "0.2.0"
 }
