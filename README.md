@@ -72,7 +72,7 @@ with exact commands:
 
 ## What's in the catalog right now
 
-Five installable plugins, three skills each, plus `_template-plugin` -- a
+Six installable plugins, three skills each, plus `_template-plugin` -- a
 scaffold kept on purpose, since it's what proves the structure and all four
 adapters still work after a change to this repo's shape.
 
@@ -96,6 +96,11 @@ adapters still work after a change to this repo's shape.
   non-technical audience, reframing it around business impact, risk,
   timeline, and cost. Severity, uncertainty, numbers, and any caveat that
   would change a decision survive the rewrite untouched; jargon doesn't.
+- **`design-doc-reviewer`** -- checks a design doc for structural and
+  completeness gaps before it goes to the team: problem stated before
+  solution, alternatives actually weighed, failure modes, a way back,
+  named ownership. Produces a findings table with a draft question per
+  gap, not a line edit and not a verdict on the design.
 
 ### Where each one keeps its data
 
@@ -111,15 +116,19 @@ running the tool.
 
 **Information about a codebase** is committed where the team can see it,
 next to the code it describes. `tech-debt-prioritizer` keeps its register
-in the repo the debt is in; `incident-postmortem-writer` writes to
-`.claude/incidents/` in the affected service's repo.
+in the repo the debt is in, `incident-postmortem-writer` writes to
+`.claude/incidents/` in the affected service's repo, and
+`design-doc-reviewer` keeps its checklist and gap history in `.claude/` in
+the repo the docs belong to. These also have a practical reason to sit
+outside the plugin: installed plugins are cached per version, so a
+plugin-local store is orphaned by the next release.
 
 The question is the same each time: does this describe *people* or a
 *codebase*? Each plugin's own README says which it is -- read that before
 installing.
 
-`CATALOG.md` has the full index, plus the backlog of ideas not yet scoped
-into plugins (currently just a design doc reviewer).
+`CATALOG.md` has the full index. Its backlog is currently empty -- every
+plugin from the original brainstorm has shipped.
 
 ## Adding a new plugin
 
@@ -143,6 +152,6 @@ notes, including how to register a new plugin.
 
 ## Status
 
-Working. Five plugins published, all four adapters exercised by the test
+Working. Six plugins published, all four adapters exercised by the test
 suite against real plugin content, and releases automated. The marketplace
 structure is settled; what grows from here is the catalog.
