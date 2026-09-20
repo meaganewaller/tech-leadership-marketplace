@@ -1,6 +1,6 @@
 {
   "name": "delegation-assistant",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Breaks a project into chunks and matches each one to a team member on purpose -- by stated skill level, growth fit, and current workload -- instead of defaulting to whoever is most senior or most available. Keeps a roster, flags chunks nobody is ready for, and tracks how assignments actually went.",
   "author": {
     "name": "Meagan Waller",
