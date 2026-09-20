@@ -69,6 +69,23 @@
           "jsonpath": "$.plugins[?(@.name=='incident-postmortem-writer')].version"
         }
       ]
+    },
+    "plugins/stakeholder-translator": {
+      "component": "stakeholder-translator",
+      "release-type": "simple",
+      "initial-version": "0.1.0",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "/.claude-plugin/marketplace.json",
+          "jsonpath": "$.plugins[?(@.name=='stakeholder-translator')].version"
+        }
+      ]
     }
   }
 }

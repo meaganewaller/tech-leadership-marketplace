@@ -1,0 +1,17 @@
+{
+  "name": "stakeholder-translator",
+  "version": "0.1.0",
+  "description": "Rewrites a technical update -- a PR summary, an incident, an architecture decision, a sprint status -- for a specific non-technical audience, reframing it around business impact, risk, timeline, and cost without letting severity, uncertainty, or real caveats get smoothed away in the process. Keeps a profile of what each stakeholder cares about and a record of what they have already been told.",
+  "author": {
+    "name": "Meagan Waller",
+    "email": "meagan@meaganwaller.com"
+  },
+  "keywords": [
+    "stakeholder",
+    "communication",
+    "executive",
+    "non-technical",
+    "engineering management",
+    "tech lead"
+  ]
+}
