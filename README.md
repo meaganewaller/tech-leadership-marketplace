@@ -55,6 +55,7 @@ tech-leadership-marketplace/
 │   ├── ci.yml                -- lint + tests on every pull request
 │   └── release.yml           -- release-please, on push to main
 ├── release-please-config.json -- one release package per installable plugin
+├── .release-please-manifest.json -- current version of each of those packages
 ├── CATALOG.md                 -- human-readable index of plugins and skills
 └── AGENTS.md                  -- instructions for an agent working on this repo itself
 ```
@@ -71,23 +72,54 @@ with exact commands:
 
 ## What's in the catalog right now
 
-Two installable plugins, plus `_template-plugin` -- a scaffold kept on
-purpose, since it's what proves the structure and all four adapters still
-work after a change to this repo's shape.
+Five installable plugins, three skills each, plus `_template-plugin` -- a
+scaffold kept on purpose, since it's what proves the structure and all four
+adapters still work after a change to this repo's shape.
 
 - **`one-on-one-prep`** -- prepares for 1:1s with talking points that go
   past "what did you work on this week," logs what was actually discussed,
-  and surfaces recurring themes and stale follow-ups over time. Per-person
-  notes live outside the plugin folder, deliberately -- read its README
-  before installing.
+  and surfaces recurring themes and stale follow-ups over time.
 - **`tech-debt-prioritizer`** -- ranks technical debt by business impact
   rather than by how unpleasant the code is, scoring blast radius, velocity
   drag, customer impact, cost of delay, and effort into a Now/Next/Later
   list. Keeps a team-visible register in the repo the debt belongs to.
+- **`delegation-assistant`** -- breaks a project into chunks and matches
+  each one to a person by stated skill level, growth fit, and current load,
+  rather than by who is most senior or most available. Flags the chunks
+  nobody is ready for instead of assigning them anyway.
+- **`incident-postmortem-writer`** -- captures an incident timeline while
+  details are fresh, then writes a blameless postmortem whose root causes
+  are system and process gaps. There is deliberately no root cause category
+  for human error. Tracks recurring causes and action items that never
+  close.
+- **`stakeholder-translator`** -- rewrites a technical update for a
+  non-technical audience, reframing it around business impact, risk,
+  timeline, and cost. Severity, uncertainty, numbers, and any caveat that
+  would change a decision survive the rewrite untouched; jargon doesn't.
+
+### Where each one keeps its data
+
+This differs on purpose, and it's worth knowing before you install
+anything.
+
+**Information about people** lives under `~/.tech-leadership/`, outside the
+installed plugin folder -- `one-on-ones/` for `one-on-one-prep`,
+`delegation/` for `delegation-assistant`, `stakeholders/` for
+`stakeholder-translator`. It never travels with skill content through an
+adapter and never gets committed. It stays local and private to whoever is
+running the tool.
+
+**Information about a codebase** is committed where the team can see it,
+next to the code it describes. `tech-debt-prioritizer` keeps its register
+in the repo the debt is in; `incident-postmortem-writer` writes to
+`.claude/incidents/` in the affected service's repo.
+
+The question is the same each time: does this describe *people* or a
+*codebase*? Each plugin's own README says which it is -- read that before
+installing.
 
 `CATALOG.md` has the full index, plus the backlog of ideas not yet scoped
-into plugins (delegation assistant, incident/postmortem writer, stakeholder
-translator, design doc reviewer).
+into plugins (currently just a design doc reviewer).
 
 ## Adding a new plugin
 
@@ -111,6 +143,6 @@ notes, including how to register a new plugin.
 
 ## Status
 
-Working. Two plugins published, all four adapters exercised by the test
+Working. Five plugins published, all four adapters exercised by the test
 suite against real plugin content, and releases automated. The marketplace
 structure is settled; what grows from here is the catalog.
