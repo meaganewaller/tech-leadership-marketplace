@@ -76,7 +76,7 @@
     {
       "name": "stakeholder-translator",
       "description": "Rewrites a technical update -- a PR summary, an incident, an architecture decision, a sprint status -- for a specific non-technical audience, reframing it around business impact, risk, timeline, and cost without letting severity, uncertainty, or real caveats get smoothed away in the process. Keeps a profile of what each stakeholder cares about and a record of what they have already been told.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/stakeholder-translator",
       "category": "communication",
       "keywords": [
