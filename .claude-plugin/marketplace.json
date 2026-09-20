@@ -58,6 +58,20 @@
         "engineering management",
         "tech lead"
       ]
+    },
+    {
+      "name": "incident-postmortem-writer",
+      "description": "Structures a blameless postmortem fast while details are still fresh -- capturing an incident timeline live, turning it into a full postmortem whose root causes are framed as system and process gaps rather than individual mistakes, and tracking recurring causes and never-closed action items across incidents.",
+      "version": "0.1.0",
+      "source": "./plugins/incident-postmortem-writer",
+      "category": "reliability",
+      "keywords": [
+        "incident",
+        "postmortem",
+        "blameless",
+        "reliability",
+        "tech lead"
+      ]
     }
   ]
 }

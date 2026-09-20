@@ -52,6 +52,23 @@
           "jsonpath": "$.plugins[?(@.name=='delegation-assistant')].version"
         }
       ]
+    },
+    "plugins/incident-postmortem-writer": {
+      "component": "incident-postmortem-writer",
+      "release-type": "simple",
+      "initial-version": "0.1.0",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".claude-plugin/plugin.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "/.claude-plugin/marketplace.json",
+          "jsonpath": "$.plugins[?(@.name=='incident-postmortem-writer')].version"
+        }
+      ]
     }
   }
 }
