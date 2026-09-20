@@ -13,7 +13,10 @@
       "version": "0.1.0",
       "source": "./plugins/_template-plugin",
       "category": "template",
-      "tags": ["template", "do-not-install"]
+      "tags": [
+        "template",
+        "do-not-install"
+      ]
     },
     {
       "name": "one-on-one-prep",
@@ -21,7 +24,12 @@
       "version": "0.1.0",
       "source": "./plugins/one-on-one-prep",
       "category": "people-management",
-      "keywords": ["1:1", "one-on-one", "engineering management", "tech lead"]
+      "keywords": [
+        "1:1",
+        "one-on-one",
+        "engineering management",
+        "tech lead"
+      ]
     },
     {
       "name": "tech-debt-prioritizer",
@@ -33,6 +41,20 @@
         "tech debt",
         "technical debt",
         "prioritization",
+        "engineering management",
+        "tech lead"
+      ]
+    },
+    {
+      "name": "delegation-assistant",
+      "description": "Breaks a project into chunks and matches each one to a team member on purpose -- by stated skill level, growth fit, and current workload -- instead of defaulting to whoever is most senior or most available. Keeps a roster, flags chunks nobody is ready for, and tracks how assignments actually went.",
+      "version": "0.1.0",
+      "source": "./plugins/delegation-assistant",
+      "category": "people-management",
+      "keywords": [
+        "delegation",
+        "team",
+        "growth",
         "engineering management",
         "tech lead"
       ]
