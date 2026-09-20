@@ -60,15 +60,128 @@ tech-leadership-marketplace/
 └── AGENTS.md                  -- instructions for an agent working on this repo itself
 ```
 
-## Using a plugin
+## Installing and using a plugin
 
-Pick the adapter for whichever tool you're using; each has its own README
-with exact commands:
+Pick the section for whichever tool you use. Every adapter reads the same
+canonical content under `plugins/`, so the skills behave the same way
+wherever they end up; what differs is where they get installed and how you
+invoke them. Each `adapters/<tool>/README.md` has more detail than this.
 
-- **Claude** -- `adapters/claude/README.md`
-- **GitHub Copilot** -- `adapters/copilot/install.sh <path-to-your-repo>`
-- **Gemini CLI** -- `adapters/gemini/install.sh <plugin-name>`
-- **OpenAI Codex CLI** -- `adapters/codex/install.sh --personal` or `--repo <path>`
+Plugin names, for the commands below:
+
+`one-on-one-prep` · `tech-debt-prioritizer` · `delegation-assistant` ·
+`incident-postmortem-writer` · `stakeholder-translator` ·
+`design-doc-reviewer`
+
+See [the catalog](#whats-in-the-catalog-right-now) for what each one does.
+
+### Before you start (everything except Claude)
+
+Three of the four adapters are shell scripts that live in this repo, so
+clone it first and run them from the root:
+
+```bash
+git clone https://github.com/meaganewaller/tech-leadership-marketplace.git
+cd tech-leadership-marketplace
+```
+
+They need `bash` and `jq`. Claude is the exception -- it installs from the
+repo URL directly, with nothing cloned and no build step.
+
+### Claude
+
+This repo's layout *is* Claude's plugin format, so there's nothing to
+convert:
+
+```bash
+claude plugin marketplace add https://github.com/meaganewaller/tech-leadership-marketplace
+claude plugin install one-on-one-prep@tech-leadership
+```
+
+`tech-leadership` is the marketplace's name (from
+`.claude-plugin/marketplace.json`), not the repo's. Repeat the second
+command per plugin, or browse and install interactively with `/plugin` in a
+session. A local clone works as the source too, which is what you want when
+editing a plugin:
+
+```bash
+claude plugin marketplace add /path/to/tech-leadership-marketplace
+```
+
+Skills fire on their own when a request matches their description -- "prep
+for my 1:1 with Jordan" reaches `one-on-one-prep` without being named.
+
+### GitHub Copilot
+
+Copilot reads skills from `.github/skills/` in whatever repo it's working
+in, so installing means copying them into that repo:
+
+```bash
+adapters/copilot/install.sh /path/to/your/repo
+```
+
+That installs every plugin. To pick specific ones, name them:
+
+```bash
+adapters/copilot/install.sh /path/to/your/repo tech-debt-prioritizer design-doc-reviewer
+```
+
+**Commit `.github/skills/`** afterward -- that's what gives the skills to
+everyone else on the repo, and it's the point of installing them here
+rather than personally. Copilot picks them up with no restart, either
+automatically or via `/<skill-name>`.
+
+### Gemini CLI
+
+Gemini loads *extensions* rather than bare skill folders, so this builds one
+extension per plugin, then installs it:
+
+```bash
+adapters/gemini/install.sh design-doc-reviewer
+gemini extensions install ./.gemini-extensions-build/design-doc-reviewer
+```
+
+The build directory is gitignored and regenerated, so don't edit it by hand
+-- the script prints the exact install command when it finishes. One plugin
+per invocation here, unlike the other adapters. For local development where
+you want edits to show up without reinstalling, use `gemini extensions link`
+against the same path and re-run the build script after changing a skill.
+
+### OpenAI Codex CLI
+
+Codex takes skills in two places, and the choice is about who gets them:
+
+```bash
+# Personal -- available in every session, on this machine only
+adapters/codex/install.sh --personal
+
+# Per-repo -- checked in and shared with the team
+adapters/codex/install.sh --repo /path/to/your/repo
+```
+
+Both accept plugin names to narrow the install, the same as Copilot's:
+
+```bash
+adapters/codex/install.sh --personal one-on-one-prep delegation-assistant
+```
+
+Personal installs land in `~/.codex/skills/`; per-repo installs land in
+`<repo>/.agents/skills/` and should be committed. Codex triggers a skill
+from its description, or you can name it explicitly with a `$` mention --
+`$design-doc-review`.
+
+### Updating, and what doesn't travel
+
+To update after pulling new plugin content, re-run the same command. Each
+adapter overwrites the skill directories it manages and leaves everything
+else in the target alone.
+
+**Adapters copy skill instructions only.** None of them copy or move your
+data -- the notes, rosters, checklists, and histories these plugins build up
+are created fresh wherever the tool runs and stay there. That's deliberate,
+and it's worth reading [where each plugin keeps its
+data](#where-each-one-keeps-its-data) before installing anything that
+records information about people.
 
 ## What's in the catalog right now
 
