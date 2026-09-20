@@ -90,7 +90,7 @@
     {
       "name": "design-doc-reviewer",
       "description": "Checks a design doc for structural and completeness gaps before it goes to the team -- whether the problem statement is clear, real alternatives were weighed, failure modes and blast radius are addressed, rollout and rollback are planned, and ownership is named. Produces a findings table with draft questions to raise, not a line edit, and tracks which gaps keep recurring across a team's docs.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/design-doc-reviewer",
       "category": "communication",
       "keywords": [
