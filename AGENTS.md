@@ -110,6 +110,31 @@ Notes an agent working here should know:
   type to every path the diff touched. A `feat(plugin-a):` pull request
   that also edits `plugin-b` minor-bumps both and writes plugin-a's
   message into plugin-b's changelog. Split the work instead.
+- **A new plugin's first release lands on `0.2.0`, not `0.1.0`.** Seeding
+  `.release-please-manifest.json` with `0.1.0` tells release-please the
+  package is *already at* `0.1.0`, so the `feat:` pull request introducing
+  it is a minor bump on top of that. `initial-version` in
+  `release-please-config.json` does not prevent this and is inert for every
+  package here -- it only governs a package release-please has no manifest
+  entry for. Four plugins have gone this way (`delegation-assistant`,
+  `incident-postmortem-writer`, `stakeholder-translator`,
+  `design-doc-reviewer`), so don't go hunting for a bug when the first tag
+  reads `v0.2.0`. For a `0.x` plugin nobody has installed yet this is
+  harmless; it just needs to not be a surprise.
+- **To make a first release land on `0.1.0`**, seed the manifest entry at
+  `"0.0.0"` so the introducing `feat:` bumps it to `0.1.0`. That follows the
+  same rule the `0.1.0` -> `0.2.0` jump does, though no plugin here has
+  been seeded that way yet. **Do not simply omit the manifest entry** --
+  `test/marketplace-integrity.test.ts` asserts the manifest and the config
+  cover exactly the same set of packages, and a missing entry fails CI.
+- **`one-on-one-prep` and `tech-debt-prioritizer` sit at `0.1.0` because
+  they were tagged by hand, not released by the workflow.** Their tags
+  point at their own feature commits rather than at a `chore: release main`
+  commit, and neither has a `CHANGELOG.md`; every release-please release
+  since points at a release commit and writes one. Release-please treats a
+  hand-made tag as the last release, which is why no later run bumped
+  either of them. The inconsistency is historical -- don't "correct" the
+  two versions to match the others.
 - **While a plugin is below 1.0.0**, a `feat!:` breaking change goes
   straight to `1.0.0` (release-please's default). Set
   `bump-minor-pre-major: true` on that package to stay in `0.x` instead.
@@ -118,5 +143,9 @@ To add a new plugin to releases, add a package to
 `release-please-config.json` -- copying the `one-on-one-prep` block and
 replacing the component name in both the `component` field and the
 `marketplace.json` jsonpath filter -- and add a matching
-`"plugins/<name>": "<current version>"` entry to
-`.release-please-manifest.json`.
+`"plugins/<name>": "<version>"` entry to `.release-please-manifest.json`.
+
+Seed that entry at `"0.1.0"` to match every other plugin here, accepting
+that the plugin's first tag will read `v0.2.0`; or at `"0.0.0"` if you want
+the first tag to read `v0.1.0`. The entry has to exist either way. See the
+first-release notes above before picking.
